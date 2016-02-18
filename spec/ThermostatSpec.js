@@ -27,4 +27,15 @@ describe('Thermostat', function(){
     thermostat.decreaseTemp();
     expect(thermostat.temperature).toBe(19);
   });
+
+  it('minimum temperature is defined', function(){
+    expect(thermostat.minimumTemp).toBeDefined();
+  });
+
+  it('can\'t decrease temperature below minimumTemp', function(){
+    for(var i = 0; i<10; i++){
+      thermostat.decreaseTemp();
+    }
+    expect(function() { thermostat.decreaseTemp() }).toThrowError('Minimum temperature reached');
+  });
 });
