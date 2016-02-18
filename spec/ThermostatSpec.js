@@ -38,4 +38,12 @@ describe('Thermostat', function(){
     }
     expect(function() { thermostat.decreaseTemp() }).toThrowError('Minimum temperature reached');
   });
+
+  it('power saving mode is defined', function(){
+    expect(thermostat.powerSavingMode).toBeDefined();
+  });
+
+  it('when in power saving mode maximumTemp = 25', function(){
+    expect(thermostat.maximumTemp).toBe(25);
+  });
 });

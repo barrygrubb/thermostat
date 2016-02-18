@@ -27,4 +27,17 @@ describe('Thermostat', function(){
     expect(function() { thermostat.decreaseTemp() }).toThrowError("Minimum temperature reached");
     expect(thermostat.temperature).toBe(10);
   });
+
+  it('has a power saving mode which sets maximumTemp to 25', function(){
+    expect(thermostat.maximumTemp).toBe(25);
+    for(var i = 0; i<5; i++){
+      thermostat.increaseTemp();
+    }
+    expect(function(){ thermostat.increaseTemp() }).toThrowError('Maximum temperature reached');
+  });
+  it('when power saving mode is off maximumTemp = 32', function(){
+    thermostat.togglePSM();
+    expect(thermostat.powerSavingMode).toBe(false);
+    expect(thermostat.maximumTemp).toBe(32);
+  });
 });
