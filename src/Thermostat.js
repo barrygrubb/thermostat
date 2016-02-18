@@ -1,8 +1,20 @@
+var DEFAULT_TEMP;
+var MINIMUM_TEMP;
+var MAXIMUM_TEMP_PSM_ON;
+var MAXIMUM_TEMP_PSM_OFF;
+var YELLOW_GREEN_THRESHHOLD;
+
 function Thermostat(){
-  this.temperature = 20;
-  this.minimumTemp = 10;
+  DEFAULT_TEMP = 20;
+  MINIMUM_TEMP = 10;
+  MAXIMUM_TEMP_PSM_ON = 25;
+  MAXIMUM_TEMP_PSM_OFF = 32;
+  YELLOW_GREEN_THRESHHOLD = 18;
+  this.temperature = DEFAULT_TEMP;
+  this.minimumTemp = MINIMUM_TEMP;
   this.powerSavingMode = true;
-  this.maximumTemp = 25;
+  this.maximumTemp = MAXIMUM_TEMP_PSM_ON;
+  this.displayColour = 'yellow';
 }
 
 Thermostat.prototype.increaseTemp = function(){
@@ -11,6 +23,7 @@ Thermostat.prototype.increaseTemp = function(){
   }
   else {
     this.temperature ++;
+    this._updateDisplayColour();
   }
 };
 
@@ -20,6 +33,7 @@ Thermostat.prototype.decreaseTemp = function(){
   }
   else {
     this.temperature --;
+    this._updateDisplayColour();
   }
 };
 
@@ -29,5 +43,21 @@ Thermostat.prototype.togglePSM = function(){
 };
 
 Thermostat.prototype._setMaxTemp = function(){
-  this.powerSavingMode ? this.maximumTemp = 25 : this.maximumTemp = 32;
+  this.powerSavingMode ? this.maximumTemp = MAXIMUM_TEMP_PSM_ON : this.maximumTemp = MAXIMUM_TEMP_PSM_OFF;
+};
+
+Thermostat.prototype.reset = function(){
+  this.temperature = DEFAULT_TEMP;
+};
+
+Thermostat.prototype._updateDisplayColour = function(){
+  if(this.temperature < YELLOW_GREEN_THRESHHOLD){
+    this.displayColour = 'green';
+  }
+  else if(this.temperature < MAXIMUM_TEMP_PSM_ON){
+    this.displayColour = 'yellow';
+  }
+  else {
+    this.displayColour = 'red';
+  }
 };
